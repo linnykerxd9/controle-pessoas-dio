@@ -36,9 +36,9 @@ public class PersonController {
         return personService.createPerson(personDTO);
     }
 
-    @PutMapping
-    public MessageResponseDTO updatePerson(@RequestBody @Valid PersonDTO personDTO){
-        return personService.updatePerson(personDTO);
+    @PutMapping("/{idPerson}")
+    public MessageResponseDTO updatePerson(@PathVariable("idPerson") Long id,@RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundExcetion {
+        return personService.updatePerson(id , personDTO);
     }
 
     @DeleteMapping("/{idPerson}")

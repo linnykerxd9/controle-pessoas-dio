@@ -2,6 +2,7 @@ package com.dio.gerenciamentopessoas.Controller;
 
 import com.dio.gerenciamentopessoas.Dto.Request.PersonDTO;
 import com.dio.gerenciamentopessoas.Entity.Person;
+import com.dio.gerenciamentopessoas.Exception.PersonNotFoundExcetion;
 import com.dio.gerenciamentopessoas.Service.PersonService;
 import com.dio.gerenciamentopessoas.Dto.Response.MessageResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class PersonController {
     }
 
     @GetMapping("/{idPerson}")
-    public Optional<PersonDTO> personById(@PathVariable("idPerson") Long id){
+    public PersonDTO personById(@PathVariable("idPerson") Long id) throws PersonNotFoundExcetion {
         return personService.personById(id);
     }
 

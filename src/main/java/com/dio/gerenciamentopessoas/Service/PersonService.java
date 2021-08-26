@@ -2,6 +2,7 @@ package com.dio.gerenciamentopessoas.Service;
 
 import com.dio.gerenciamentopessoas.Dto.Request.PersonDTO;
 import com.dio.gerenciamentopessoas.Entity.Person;
+import com.dio.gerenciamentopessoas.Exception.PersonNotFoundExcetion;
 import com.dio.gerenciamentopessoas.Mapper.PersonMapper;
 import com.dio.gerenciamentopessoas.Repository.PersonRepository;
 import com.dio.gerenciamentopessoas.Dto.Response.MessageResponseDTO;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -48,13 +50,18 @@ public class PersonService {
 
     public List<PersonDTO> allPersons(){
 
-        List<Person>  person = personRepository.findAll();
+        List<Person>  allPeople = personRepository.findAll();
 
-        List<PersonDTO> personListDTO = personMapper.toDTO(person);
-        return List<personListDTO>;
+        List<PersonDTO> personListDTO = allPeople.stream()
+                                        .map(personMapper::toDTO)
+                                        .collect(Collectors.toList());
+        return personListDTO;
     }
 
-    public Optional<PersonDTO> personById(Long id){
-        return personRepository.findById(id);
+    public PersonDTO personById(Long id) throws PersonNotFoundExcetion {
+
+        Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundExcetion(id));
+
+         return personMapper.toDTO(person);
     }
 }

@@ -44,7 +44,9 @@ public class PersonService {
                 .build();
     }
 
-    public void deletePerson(Long id){
+    public void deletePerson(Long id) throws PersonNotFoundExcetion {
+        verifyIfExists(id);
+
         personRepository.deleteById(id);
     }
 
@@ -60,8 +62,13 @@ public class PersonService {
 
     public PersonDTO personById(Long id) throws PersonNotFoundExcetion {
 
-        Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundExcetion(id));
+        Person person = verifyIfExists(id);
 
          return personMapper.toDTO(person);
+    }
+
+
+    public Person verifyIfExists(Long id) throws PersonNotFoundExcetion {
+        return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundExcetion(id));
     }
 }

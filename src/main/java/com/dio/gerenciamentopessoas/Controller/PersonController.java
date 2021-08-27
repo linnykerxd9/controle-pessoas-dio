@@ -5,6 +5,7 @@ import com.dio.gerenciamentopessoas.Entity.Person;
 import com.dio.gerenciamentopessoas.Exception.PersonNotFoundExcetion;
 import com.dio.gerenciamentopessoas.Service.PersonService;
 import com.dio.gerenciamentopessoas.Dto.Response.MessageResponseDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/people")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonController {
 
-    @Autowired
+
     PersonService personService;
 
     @GetMapping
